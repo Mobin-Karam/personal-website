@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { BlogCardProps } from "@/types/blog";
+import type { BlogCardProps } from "../../../types/blog";
 
 interface BlogPostPageProps {
   params: { slug: string } | Promise<{ slug: string }>;

@@ -5,7 +5,6 @@ import { WelcomeButtons } from './WelcomeButtons'
 import { WelcomeList } from './WelcomeList'
 
 export const Welcome = () => {
-    const [show, setShow] = useState<React.ReactNode>()
     return (
         <>
             <div className='max-w-md w-full p-6 flex flex-col items-center justify-center gap-2 bg-transparent'>

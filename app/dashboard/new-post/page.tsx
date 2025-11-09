@@ -46,8 +46,8 @@ export default function NewPostPage() {
     };
 
     return (
-        <main className="min-h-screen bg-slate-100 p-10">
-            <div className="max-w-3xl mx-auto bg-white p-8 shadow rounded-lg">
+        <div className="max-h-screen bg-white w-full p-10">
+            <div className=" mx-auto bg-white p-8 shadow rounded-lg">
                 <h1 className="text-2xl font-bold mb-6">Write a New Post</h1>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -93,6 +93,6 @@ export default function NewPostPage() {
                     </button>
                 </form>
             </div>
-        </main>
+        </div>
     );
 }

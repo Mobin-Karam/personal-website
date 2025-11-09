@@ -1,13 +1,5 @@
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import '@/app/ui/global.css';
-import Image from 'next/image';
-import { Welcome } from './ui/homepage/Welcome';
-import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
-import Hero from './ui/homepage/hero';
-import { FaGithub } from "react-icons/fa";
-import { CiLinkedin } from "react-icons/ci";
+import Hero from '../components/homepage/hero';
 
 export default async function Page() {
   return (

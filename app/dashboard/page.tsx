@@ -1,18 +1,27 @@
 "use client";
 
-import AuthGuard from "@/app/ui/auth/auth-components/AuthGuard";
+import AuthGuard from "@/components/auth/auth-components/AuthGuard";
 import Link from "next/link";
 import { Auth } from "@/app/lib/auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { BlogCardProps } from "@/types/blog";
+import { useAuth } from "../context/AuthContext";
+import ThemeSwitcher from "../../components/theme/ThemeSwitcher";
+import TopDashboard from "@/components/dashboard/top/TopDashboard";
 
 export default function DashboardPage() {
+    const { isLoggedIn, logout } = useAuth()
     const router = useRouter();
     const [posts, setPosts] = useState<BlogCardProps[]>([]);
     const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState<string | null>(null); // slug being deleted
-
+    useEffect(() => {
+        if (!isLoggedIn) {
+            // If user is not logged in, redirect to login
+            router.replace("/login");
+        }
+    }, [isLoggedIn, router]);
     // Fetch posts from API
     const fetchPosts = async () => {
         setLoading(true);
@@ -33,10 +42,6 @@ export default function DashboardPage() {
         fetchPosts();
     }, []);
 
-    const handleLogout = () => {
-        Auth.logout();
-        router.push("/login");
-    };
 
     const handleDelete = async (slug: string) => {
         if (!confirm("Are you sure you want to delete this post?")) return;
@@ -60,71 +65,63 @@ export default function DashboardPage() {
         }
     };
 
+    if (!isLoggedIn) {
+        return <p className="text-center mt-10">Checking authentication...</p>;
+    }
+
     return (
-        <AuthGuard>
-            <main className="min-h-screen w-full bg-transparent p-10 flex flex-col items-center">
-                <div className="max-w-4xl w-full bg-white shadow p-6 rounded-lg">
-                    <div className="flex justify-between items-center mb-6">
-                        <h1 className="text-2xl font-bold">Dashboard</h1>
-                        <button
-                            onClick={handleLogout}
-                            className="text-red-600 hover:underline"
+        <div className="flex-1 transition-all  duration-300 ease-in-out xl:ml-[290px]">
+            <TopDashboard router={router} />
+            <Link
+                href="/dashboard/new-post"
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-6 inline-block"
+            >
+                ➕ Write New Post
+            </Link>
+
+            {loading ? (
+                <p>Loading posts...</p>
+            ) : posts.length === 0 ? (
+                <p>No posts yet.</p>
+            ) : (
+                <div className="flex flex-col gap-4">
+                    {posts.map((post) => (
+                        <div
+                            key={post.slug}
+                            className="flex justify-between items-center p-4 border rounded"
                         >
-                            Logout
-                        </button>
-                    </div>
+                            <div>
+                                <h2 className="text-lg font-semibold">{post.title}</h2>
+                                <p className="text-sm text-gray-500">
+                                    {new Date(post.date).toLocaleDateString()}
+                                </p>
+                                <p className="text-gray-700 mt-1">{post.excerpt}</p>
+                            </div>
 
-                    <Link
-                        href="/dashboard/new-post"
-                        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-6 inline-block"
-                    >
-                        ➕ Write New Post
-                    </Link>
-
-                    {loading ? (
-                        <p>Loading posts...</p>
-                    ) : posts.length === 0 ? (
-                        <p>No posts yet.</p>
-                    ) : (
-                        <div className="flex flex-col gap-4">
-                            {posts.map((post) => (
-                                <div
-                                    key={post.slug}
-                                    className="flex justify-between items-center p-4 border rounded"
-                                >
-                                    <div>
-                                        <h2 className="text-lg font-semibold">{post.title}</h2>
-                                        <p className="text-sm text-gray-500">
-                                            {new Date(post.date).toLocaleDateString()}
-                                        </p>
-                                        <p className="text-gray-700 mt-1">{post.excerpt}</p>
-                                    </div>
-
-                                    <div className="flex gap-2">
-                                        {/* <Link
+                            <div className="flex gap-2">
+                                {/* <Link
                                             href={`/dashboard/edit-post/${encodeURIComponent(post.slug)}`}
                                             className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
                                         >
                                             Edit
                                         </Link> */}
 
-                                        <button
-                                            onClick={() => handleDelete(post.slug)}
-                                            disabled={deleting === post.slug}
-                                            className={`px-3 py-1 rounded text-white ${deleting === post.slug
-                                                ? "bg-gray-400 cursor-not-allowed"
-                                                : "bg-red-600 hover:bg-red-700"
-                                                }`}
-                                        >
-                                            {deleting === post.slug ? "Deleting..." : "Delete"}
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
+                                <button
+                                    onClick={() => handleDelete(post.slug)}
+                                    disabled={deleting === post.slug}
+                                    className={`px-3 py-1 rounded text-white ${deleting === post.slug
+                                        ? "bg-gray-400 cursor-not-allowed"
+                                        : "bg-red-600 hover:bg-red-700"
+                                        }`}
+                                >
+                                    {deleting === post.slug ? "Deleting..." : "Delete"}
+                                </button>
+                            </div>
                         </div>
-                    )}
+                    ))}
                 </div>
-            </main>
-        </AuthGuard>
+            )}
+
+        </div>
     );
 }

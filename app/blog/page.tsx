@@ -1,5 +1,6 @@
-import BlogCard from "@/app/ui/blog/BlogCard";
-import { BlogCardProps } from "@/types/blog";
+import { BlogCardProps } from "../../types/blog";
+import BlogCard from "../../components/blog/BlogCard"
+
 
 export default async function Blog() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`);
@@ -11,7 +12,7 @@ export default async function Blog() {
     const isRtl = (text: string) => /[\u0600-\u06FF]/.test(text);
 
     return (
-        <main className="min-h-screen bg-transparent flex flex-col items-center py-16 px-6">
+        <main className="max-h-screen w-full bg-transparent flex flex-col items-center py-16 px-6">
             <div className="max-w-4xl w-full text-center mb-12">
                 <h1 className="text-4xl font-bold text-white">My Blog</h1>
                 <p className="text-white mt-2">Thoughts, tutorials, and coding stories.</p>
