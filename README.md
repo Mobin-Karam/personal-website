@@ -1,5 +1,5 @@
-## Next.js App Router Course - Starter
+## Multipage Personal Website with Blog, Shop, and Dashboard Page
 
-This is the starter template for the Next.js App Router Course. It contains the starting code for the dashboard application.
+# My Goal of this project just to get in the fild and learn more about next,react and typescript and keep going to be in the line.
 
-For more information, see the [course curriculum](https://nextjs.org/learn) on the Next.js Website.
+... Documentation is Coming soon.!
