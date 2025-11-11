@@ -1,5 +1,108 @@
+import SideBarSection from '@/components/dashboard/sidebar/SideBarSection'
 import ThemeSwitcher from '@/components/theme/ThemeSwitcher'
 import React from 'react'
+import { FaChartBar } from "react-icons/fa";
+import { RiBox3Line } from "react-icons/ri";
+import { PiPlugChargingLight } from "react-icons/pi";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { BiSupport } from "react-icons/bi";
+import { MdOutlineMailOutline } from "react-icons/md";
+
+export interface dropdownitem {
+  text: string,
+  icon?: React.ReactNode,
+  content?: string[]
+}
+
+interface drop_down {
+  header: string,
+  drop_down_items: dropdownitem[],
+}
+
+const side_bar_sections: drop_down[] = [
+  {
+    header: 'Menu',
+    drop_down_items: [
+      {
+        text: "Dashboard", icon: <></>, content: [
+          "Ecommerce",
+          "Analytics",
+          "Marketing",
+          "CRM",
+          "Stocks",
+          "SaaS",
+          "Logistics"]
+      },
+      {
+        text: 'AI Assistant', icon: <></>,
+        content: [
+          "Text Generator",
+          "Image Generator",
+          "Code Generator",
+          "Video Generator"]
+      },
+
+      {
+        text: 'E-commerce', icon: <></>, content: [
+          "Products",
+          "Add Product",
+          "Billing",
+          "Invoices",
+          "Single Invoice",
+          "Create Invoice",
+          "Transactions",
+          'Single Transaction']
+      },
+      {
+        text: 'Calendar', icon: <></>, content: [
+          "Products",
+          "Add Product",
+          "Billing",
+          "Invoices",
+          "Single Invoice",
+          "Create Invoice",
+          "Transactions",
+          'Single Transaction']
+      },
+      { text: 'User Profile', icon: <></> },
+      { text: 'Taks', icon: <></> },
+      { text: 'Form', icon: <></> },
+      { text: 'Tables', icon: <></> },
+      { text: 'Pages', icon: <></> }]
+  },
+  {
+    header: 'Supports',
+    drop_down_items: [
+      {
+        text: 'Chat',
+        icon: <IoChatboxEllipsesOutline />
+      },
+      {
+        text: 'Support',
+        icon: <BiSupport />
+      },
+      {
+        text: 'Email',
+        icon: <MdOutlineMailOutline />
+      }]
+  },
+  {
+    header: 'Others',
+    drop_down_items: [
+        {
+          text: 'Charts',
+          icon: <FaChartBar />
+        },
+      {
+        text: 'UI Elements',
+        icon: <RiBox3Line />
+      },
+      {
+        text: 'Authentication',
+        icon: <PiPlugChargingLight />
+      }]
+  }]
+
 
 const SideBar = () => {
   return (
@@ -12,15 +115,9 @@ const SideBar = () => {
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
             {/* Any much you want can make this div segment */}
-            <div>
-              <h2 className="mb-4 text-xs uppercase flex leading-5 text-gray-400 justify-start">Menu</h2>
-              <ul className="flex flex-col gap-1">
-                <li>
-                  <button className="menu-item group  menu-item-inactive cursor-pointer lg:justify-start"></button>
-                  <div className="overflow-hidden"></div>
-                </li>
-              </ul>
-            </div>
+            {side_bar_sections.map((side_bar_section, index) => (
+              <SideBarSection key={index} drop_down_items={side_bar_section.drop_down_items} header={side_bar_section.header} />
+            ))}
           </div>
         </nav>
         <div className="pb-20"></div>
